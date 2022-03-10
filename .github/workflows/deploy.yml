@@ -20,8 +20,8 @@ jobs:
           key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json', 'yarn.lock') }}
       - if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn
-      - name: test
-        run: yarn test
+      # - name: test
+      #   run: yarn test
 
   publish:
     name: publish
