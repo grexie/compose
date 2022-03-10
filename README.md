@@ -1,12 +1,14 @@
 # Grexie Compose
 
+Create and use composable functions for React context providers and other wrapper components.
+
 ## Installing
 
 ```bash
 yarn add @grexie/compose
 ```
 
-## Usage
+## Usage
 
 Create a composable from an existing component, for example a context provider:
 
