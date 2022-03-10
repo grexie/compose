@@ -1,6 +1,6 @@
 .gitignore
 .prettierrc
-.github
+.github/
 tsconfig.json
 tsconfig.tsbuildinfo
 src
