@@ -20,12 +20,21 @@ const createComposable =
     );
 
 function createComposableWithProps<P>(Composable: Composable) {
-  return (composableProps: P) => (Component: Composable) => (props: object) =>
-    (
+  return (composableProps: P | (props: object) => P) => (Component: Composable) => (props: object) => {
+    let composablePropsFinal;
+    
+    if (typeof composableProps === 'function') {
+      composablePropsFinal = Object.assign({}, composablePropsFinal(props));
+    } else {
+      composablePropsFinal = Object.assign({}, composableProps);
+    }
+    
+    return (
       <Composable {...composableProps}>
         <Component {...props} />
       </Composable>
     );
+  }
 }
 
 export { compose, createComposable, createComposableWithProps };
