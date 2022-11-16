@@ -1,6 +1,6 @@
 {
   "name": "@grexie/compose",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "private": false,
   "repository": "github:grexie/compose",
@@ -23,7 +23,8 @@
     ".": {
       "import": "./lib/index.mjs",
       "require": "./lib/index.cjs",
-      "default": "./lib/index.mjs"
+      "default": "./lib/index.mjs",
+      "types": "./lib/index.d.ts"
     }
   },
   "peerDependencies": {
