@@ -1,4 +1,4 @@
-import type { ComponentType, PropsWithChildren } from 'react';
+import type { ComponentType, FC, PropsWithChildren } from 'react';
 
 type Composable<P extends PropsWithChildren<{}> = any> = (
   composable: any
@@ -19,8 +19,8 @@ const createComposable =
   (
     Composable: ComponentType<PropsWithChildren<{}>>
   ): Composable<PropsWithChildren<{}>> =>
-  (Component: ComponentType<any>) =>
-  (props: any): JSX.Element =>
+  <P = {},>(Component: ComponentType<P>): FC<P> =>
+  (props: P & JSX.IntrinsicAttributes): JSX.Element =>
     (
       <Composable>
         <Component {...props} />
@@ -34,8 +34,8 @@ function createComposableWithProps<P extends PropsWithChildren<{}>>(
   Composable: ComponentType<P>
 ) {
   return (composableProps: ComposableProps<P>): Composable<P> =>
-    (Component: ComponentType<any>) =>
-    (props: object) => {
+    <CP = {},>(Component: ComponentType<CP>): FC<CP> =>
+    (props: CP & JSX.IntrinsicAttributes) => {
       let composablePropsFinal: P;
 
       if (typeof composableProps === 'function') {
