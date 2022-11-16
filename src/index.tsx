@@ -1,6 +1,6 @@
 import type { ComponentType, FC, PropsWithChildren } from 'react';
 
-export type Composable = (composable: ComponentType<any>) => FC<any>;
+export type Composable = <P = {}>(component: ComponentType<P>) => FC<P>;
 
 export const compose = <P extends object = any>(
   ...composables: [...Composable[], ComponentType<P>]
