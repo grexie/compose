@@ -1,8 +1,8 @@
 import type { ComponentType, FC, PropsWithChildren } from 'react';
 
-type Composable<P extends PropsWithChildren<{}> = any> = (
+type Composable<P extends {} = any> = (
   composable: any
-) => ComponentType<P>;
+) => FC<PropsWithChildren<P>>;
 
 const compose = <P extends object = any>(
   ...composables: [...Composable[], ComponentType<P>]
@@ -16,9 +16,7 @@ const compose = <P extends object = any>(
 };
 
 const createComposable =
-  (
-    Composable: ComponentType<PropsWithChildren<{}>>
-  ): Composable<PropsWithChildren<{}>> =>
+  (Composable: ComponentType<PropsWithChildren<{}>>): Composable<{}> =>
   <P = {},>(Component: ComponentType<P>): FC<P> =>
   (props: P & JSX.IntrinsicAttributes): JSX.Element =>
     (
