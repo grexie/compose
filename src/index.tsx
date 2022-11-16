@@ -1,10 +1,8 @@
 import type { ComponentType, FC, PropsWithChildren } from 'react';
 
-type Composable<P extends {} = any> = (
-  composable: any
-) => FC<PropsWithChildren<P>>;
+export type Composable = (composable: ComponentType<any>) => FC<any>;
 
-const compose = <P extends object = any>(
+export const compose = <P extends object = any>(
   ...composables: [...Composable[], ComponentType<P>]
 ): ComponentType<P> => {
   let Component: ComponentType<P> = composables.pop() as any;
@@ -15,8 +13,8 @@ const compose = <P extends object = any>(
   return Component;
 };
 
-const createComposable =
-  (Composable: ComponentType<PropsWithChildren<{}>>): Composable<{}> =>
+export const createComposable =
+  (Composable: ComponentType<PropsWithChildren<{}>>): Composable =>
   <P = {},>(Component: ComponentType<P>): FC<P> =>
   (props: P & JSX.IntrinsicAttributes): JSX.Element =>
     (
@@ -28,10 +26,10 @@ const createComposable =
 type ComposablePropsFunction<P extends Object> = (props: object) => P;
 type ComposableProps<P extends Object> = P | ComposablePropsFunction<P>;
 
-function createComposableWithProps<P extends {}>(
+export const createComposableWithProps = <P extends {}>(
   Composable: ComponentType<PropsWithChildren<P>>
-) {
-  return (composableProps: ComposableProps<P>): Composable<P> =>
+): ((props: P) => Composable) => {
+  return (composableProps: ComposableProps<P>): Composable =>
     <CP = {},>(Component: ComponentType<CP>): FC<CP> =>
     (props: CP & JSX.IntrinsicAttributes) => {
       let composablePropsFinal: P;
@@ -51,6 +49,4 @@ function createComposableWithProps<P extends {}>(
         </Composable>
       );
     };
-}
-
-export { compose, createComposable, createComposableWithProps };
+};

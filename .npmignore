@@ -1,5 +1,6 @@
 .gitignore
 .prettierrc
+.babelrc.js
 .github/
 tsconfig.json
 tsconfig.tsbuildinfo
