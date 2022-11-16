@@ -1,18 +1,26 @@
-import React, { Component } from 'react';
+import type { ComponentType, PropsWithChildren } from 'react';
 
-type Composable = (composable: any) => any;
+type Composable<P extends PropsWithChildren<{}> = any> = (
+  composable: any
+) => ComponentType<P>;
 
-const compose = (...composables: Composable[]): Component => {
-  let Component = composables.pop();
+const compose = <P extends object = any>(
+  ...composables: [...Composable[], ComponentType<P>]
+): ComponentType<P> => {
+  let Component: ComponentType<P> = composables.pop() as any;
   let composable: Composable | undefined;
-  while ((composable = composables.pop())) {
+  while ((composable = composables.pop() as Composable | undefined)) {
     Component = composable(Component);
   }
-  return Component as unknown as Component;
+  return Component;
 };
 
 const createComposable =
-  (Composable: Composable) => (Component: Composable) => (props: object) =>
+  (
+    Composable: ComponentType<PropsWithChildren<{}>>
+  ): Composable<PropsWithChildren<{}>> =>
+  (Component: ComponentType<any>) =>
+  (props: any): JSX.Element =>
     (
       <Composable>
         <Component {...props} />
@@ -22,9 +30,11 @@ const createComposable =
 type ComposablePropsFunction<P extends Object> = (props: object) => P;
 type ComposableProps<P extends Object> = P | ComposablePropsFunction<P>;
 
-function createComposableWithProps<P extends Object>(Composable: Composable) {
-  return (composableProps: ComposableProps<P>) =>
-    (Component: Composable) =>
+function createComposableWithProps<P extends PropsWithChildren<{}>>(
+  Composable: ComponentType<P>
+) {
+  return (composableProps: ComposableProps<P>): Composable<P> =>
+    (Component: ComponentType<any>) =>
     (props: object) => {
       let composablePropsFinal: P;
 
