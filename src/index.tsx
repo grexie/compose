@@ -28,8 +28,8 @@ const createComposable =
 type ComposablePropsFunction<P extends Object> = (props: object) => P;
 type ComposableProps<P extends Object> = P | ComposablePropsFunction<P>;
 
-function createComposableWithProps<P extends PropsWithChildren<{}>>(
-  Composable: ComponentType<P>
+function createComposableWithProps<P extends {}>(
+  Composable: ComponentType<PropsWithChildren<P>>
 ) {
   return (composableProps: ComposableProps<P>): Composable<P> =>
     <CP = {},>(Component: ComponentType<CP>): FC<CP> =>
